@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  
+  {% for msg in get_flashed_messages() %}
+    <div>{{ msg }} </div>
+  {% endfor %}
+
+  <div class="row">
+    <div class="col"><img src="{{pet.photo}}" alt="photo"/></div>
+    <div class="col">
+      <form id="edit-pet-form" method="POST" action="/{{pet.id}}">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          <p>
+            {{ field.label }}
+            {{ field }}
+      
+            {% for error in field.errors %}
+              {{ error }}
+            {% endfor %}
+          </p>
+        {% endfor %}
+        <a href="/" class="btn btn-secondary">back</a>
+        <button type="submit" class="btn btn-primary">edit</button>
+        <a href="/delete/{{pet.id}}" class="btn btn-danger">delete</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
